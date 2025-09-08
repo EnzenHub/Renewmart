@@ -8,7 +8,7 @@ cd backend
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### **2. Test Authentication**
+### **2. Test Authentication**a
 ```bash
 # Login and get token
 curl -X POST "http://localhost:8000/api/v1/auth/login" \

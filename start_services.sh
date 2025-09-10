@@ -70,7 +70,7 @@ start_backend() {
     print_status "Starting Backend Service..."
     
     # Find a free port for backend (starting from 8000)
-    BACKEND_PORT=$(find_free_port 8000)
+    BACKEND_PORT=$(find_free_port 8001)
     if [ $? -ne 0 ]; then
         print_error "Failed to find a free port for backend"
         return 1

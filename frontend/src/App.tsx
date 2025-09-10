@@ -1,37 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme';
 import { CssBaseline, Box, CircularProgress } from '@mui/material';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Layout from './components/layout/Layout';
 import AuthPage from './pages/AuthPage';
+import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import LandownerDashboardPage from './pages/LandownerDashboardPage';
 import UsersPage from './pages/UsersPage';
 import LandParcelsPage from './pages/LandParcelsPage';
 
-// Create a custom theme
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-        },
-      },
-    },
-  },
-});
+// Centralized theme imported from ./theme
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -57,12 +38,12 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return <Layout>{children}</Layout>;
 };
 
-// Public Route Component (redirects to dashboard if already authenticated)
+// Public Route Component (redirects to role home if already authenticated)
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
 
   if (isLoading) {
-  return (
+    return (
       <Box
         display="flex"
         justifyContent="center"
@@ -75,7 +56,8 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    const roleHome = user?.user_type === 'landowner' ? '/landowner' : '/dashboard';
+    return <Navigate to={roleHome} replace />;
   }
 
   return <>{children}</>;
@@ -161,8 +143,24 @@ const App: React.FC = () => {
                 </PublicRoute>
               }
             />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
 
             {/* Protected Routes */}
+            <Route
+              path="/landowner"
+              element={
+                <ProtectedRoute>
+                  <LandownerDashboardPage />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/dashboard"
               element={
@@ -260,11 +258,18 @@ const App: React.FC = () => {
               }
             />
 
-            {/* Default redirect */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            
+            {/* Default redirect to role home */}
+            <Route
+              path="/"
+              element={
+                <PublicRoute>
+                  <Navigate to="/login" replace />
+                </PublicRoute>
+              }
+            />
+
             {/* Catch all route */}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </Router>
       </AuthProvider>

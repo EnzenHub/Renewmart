@@ -10,6 +10,7 @@ import {
   Container,
   Paper,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { UserLogin } from '../../types';
 
@@ -19,6 +20,7 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
   const { login, isLoading } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<UserLogin>({
     username: '',
     password: '',
@@ -46,6 +48,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
 
     try {
       await login(formData);
+      // After successful login, route based on role
+      const storedUser = localStorage.getItem('user');
+      const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
+      const roleHome = loggedInUser?.user_type === 'landowner' ? '/landowner' : '/dashboard';
+      navigate(roleHome);
     } catch (error: any) {
       setError(error.message || 'Login failed. Please check your credentials.');
     }
@@ -61,7 +68,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
           alignItems: 'center',
         }}
       >
-        <Paper elevation={3} sx={{ padding: 4, width: '100%' }}>
+        <Paper
+          elevation={10}
+          sx={{
+            padding: 4,
+            width: '100%',
+            maxWidth: 450,
+            borderRadius: 3,
+            backgroundColor: 'rgba(255, 255, 255, 0.94)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(244, 19, 49, 0.35)',
+            boxShadow: '0 16px 36px rgba(31, 41, 55, 0.25)'
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -75,7 +94,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
             <Typography component="h2" variant="h5" color="text.secondary" gutterBottom>
               Sign In
             </Typography>
-            
+
             {error && (
               <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
                 {error}
@@ -128,9 +147,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
                   <Link
                     component="button"
                     variant="body2"
-                    onClick={onSwitchToRegister}
+                    onClick={() => navigate('/auth')}
                     disabled={isLoading}
-                    sx={{ textDecoration: 'none' }}
+                    sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 600, '&:hover': { textDecoration: 'underline' } }}
                   >
                     Sign up here
                   </Link>

@@ -1,0 +1,28 @@
+[Unit]
+Description=RenewMart Application Services
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=forking
+User=pradeep1a
+Group=pradeep1a
+WorkingDirectory=/home/pradeep1a/RenewMart/Renewmart
+ExecStart=/home/pradeep1a/RenewMart/Renewmart/start_services.sh start
+ExecStop=/home/pradeep1a/RenewMart/Renewmart/start_services.sh stop
+ExecReload=/home/pradeep1a/RenewMart/Renewmart/start_services.sh restart
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Environment variables
+Environment=PYTHONPATH=/home/pradeep1a/RenewMart/Renewmart/backend
+Environment=PGHOST=localhost
+Environment=PGPORT=5432
+Environment=PGDATABASE=renewmart_db
+Environment=PGUSER=postgres
+Environment=PGPASSWORD=RenewMart_Password
+
+[Install]
+WantedBy=multi-user.target

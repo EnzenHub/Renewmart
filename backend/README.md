@@ -254,7 +254,7 @@ curl -X GET "http://localhost:8000/api/v1/users/" \
 ### **Environment Variables**
 ```bash
 # Database
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/renewmart_db
+DATABASE_URL=postgresql://postgres:RenewMart_Password@localhost:5432/renewmart_db
 
 # Security
 SECRET_KEY=your-secret-key-here

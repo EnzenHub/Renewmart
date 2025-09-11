@@ -86,3 +86,28 @@ src/services/api.ts
 
 webpack compiled with 1 warning
 No issues found.
+Compiled with warnings.
+
+[eslint] 
+src/services/api.ts
+  Line 712:12:  'users' is assigned a value but never used          @typescript-eslint/no-unused-vars
+  Line 712:19:  'parcels' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  Line 712:28:  'tasks' is assigned a value but never used          @typescript-eslint/no-unused-vars
+  Line 712:35:  'projects' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  Line 712:45:  'opportunities' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  Line 712:60:  'proposals' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/services/api.ts
+  Line 712:12:  'users' is assigned a value but never used          @typescript-eslint/no-unused-vars
+  Line 712:19:  'parcels' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  Line 712:28:  'tasks' is assigned a value but never used          @typescript-eslint/no-unused-vars
+  Line 712:35:  'projects' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  Line 712:45:  'opportunities' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  Line 712:60:  'proposals' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+webpack compiled with 1 warning
+No issues found.

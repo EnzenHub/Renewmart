@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 # Database URL - PostgreSQL configuration
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/renewmart_db")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:RenewMart_Password@localhost:5432/renewmart_db")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

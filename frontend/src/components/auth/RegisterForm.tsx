@@ -15,6 +15,7 @@ import {
   MenuItem,
   Grid,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { UserCreate, UserType } from '../../types';
 
@@ -24,6 +25,7 @@ interface RegisterFormProps {
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
   const { register, isLoading } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<UserCreate & { confirmPassword: string }>({
     name: '',
     email: '',
@@ -88,13 +90,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
       // Remove confirmPassword from the data sent to API
       const { confirmPassword, ...userData } = formData;
       await register(userData);
+      // Redirect to login with a small success hint
+      navigate('/login', { replace: true });
     } catch (error: any) {
       setError(error.message || 'Registration failed. Please try again.');
     }
   };
 
   return (
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="sm">
       <Box
         sx={{
           marginTop: 4,
@@ -103,7 +107,19 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
           alignItems: 'center',
         }}
       >
-        <Paper elevation={3} sx={{ padding: 4, width: '100%' }}>
+        <Paper
+          elevation={10}
+          sx={{
+            padding: 4,
+            width: '100%',
+            maxWidth: 450,
+            borderRadius: 3,
+            backgroundColor: 'rgba(255, 255, 255, 0.94)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(244, 55, 61, 0.35)',
+            boxShadow: '0 16px 36px rgba(31, 41, 55, 0.25)'
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -117,7 +133,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
             <Typography component="h2" variant="h5" color="text.secondary" gutterBottom>
               Create Account
             </Typography>
-            
+
             {error && (
               <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
                 {error}
@@ -226,7 +242,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                   />
                 </Grid>
               </Grid>
-              
+
               <Button
                 type="submit"
                 fullWidth
@@ -240,16 +256,16 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                   'Create Account'
                 )}
               </Button>
-              
+
               <Box textAlign="center">
                 <Typography variant="body2">
                   Already have an account?{' '}
                   <Link
                     component="button"
                     variant="body2"
-                    onClick={onSwitchToLogin}
+                    onClick={() => navigate('/login')}
                     disabled={isLoading}
-                    sx={{ textDecoration: 'none' }}
+                    sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 600, '&:hover': { textDecoration: 'underline' } }}
                   >
                     Sign in here
                   </Link>

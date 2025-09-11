@@ -69,19 +69,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     navigate('/auth');
   };
 
-  const menuItems = [
-    { text: 'Dashboard', icon: <Dashboard />, path: '/dashboard' },
-    { text: 'Users', icon: <People />, path: '/users' },
-    { text: 'Land Parcels', icon: <LocationOn />, path: '/land-parcels' },
-    { text: 'Tasks', icon: <Assignment />, path: '/tasks' },
-    { text: 'Opportunities', icon: <Business />, path: '/opportunities' },
-    { text: 'Proposals', icon: <Description />, path: '/proposals' },
-    { text: 'Projects', icon: <Business />, path: '/projects' },
-    { text: 'Documents', icon: <Description />, path: '/documents' },
-    { text: 'Approvals', icon: <Assignment />, path: '/approvals' },
-    { text: 'Notifications', icon: <Notifications />, path: '/notifications' },
-    { text: 'Settings', icon: <Settings />, path: '/settings' },
-  ];
+  const isLandowner = user?.user_type === 'landowner';
+  const menuItems = isLandowner
+    ? [
+      { text: 'Dashboard', icon: <Dashboard />, path: '/landowner' },
+      { text: 'Land Parcels', icon: <LocationOn />, path: '/land-parcels' },
+      { text: 'Documents', icon: <Description />, path: '/documents' },
+      { text: 'Notifications', icon: <Notifications />, path: '/notifications' },
+      { text: 'Settings', icon: <Settings />, path: '/settings' },
+    ]
+    : [
+      { text: 'Dashboard', icon: <Dashboard />, path: '/dashboard' },
+      { text: 'Users', icon: <People />, path: '/users' },
+      { text: 'Land Parcels', icon: <LocationOn />, path: '/land-parcels' },
+      { text: 'Tasks', icon: <Assignment />, path: '/tasks' },
+      { text: 'Opportunities', icon: <Business />, path: '/opportunities' },
+      { text: 'Proposals', icon: <Description />, path: '/proposals' },
+      { text: 'Projects', icon: <Business />, path: '/projects' },
+      { text: 'Documents', icon: <Description />, path: '/documents' },
+      { text: 'Approvals', icon: <Assignment />, path: '/approvals' },
+      { text: 'Notifications', icon: <Notifications />, path: '/notifications' },
+      { text: 'Settings', icon: <Settings />, path: '/settings' },
+    ];
 
   const drawer = (
     <Box>

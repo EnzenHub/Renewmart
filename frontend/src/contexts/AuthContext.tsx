@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       const response: AuthResponse = await apiService.login(credentials);
-      
+
       setUser(response.user);
       localStorage.setItem('user', JSON.stringify(response.user));
     } catch (error) {
@@ -75,11 +75,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       await apiService.register(userData);
-      // After successful registration, automatically log in
-      await login({
-        username: userData.email,
-        password: userData.password,
-      });
+      // Do NOT auto-login; user must sign in explicitly
     } catch (error) {
       console.error('Registration failed:', error);
       throw error;

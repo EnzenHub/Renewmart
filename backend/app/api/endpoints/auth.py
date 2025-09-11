@@ -155,3 +155,86 @@ async def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
     
     return db_user
+
+def generate_otp(length: int = 6) -> str:
+    """Generate a random OTP"""
+    return ''.join(secrets.choice(string.digits) for _ in range(length))
+
+@router.post("/password-reset-request")
+async def request_password_reset(
+    request: PasswordResetRequest,
+    db: Session = Depends(get_db)
+):
+    """Request password reset by sending OTP to email"""
+    
+    # Check if user exists
+    user = db.query(User).filter(User.email == request.email).first()
+    if not user:
+        # Don't reveal if user exists or not for security
+        return {"message": "If the email exists, an OTP has been sent"}
+    
+    # Generate OTP
+    otp = generate_otp()
+    
+    # Set OTP and expiration time (10 minutes from now)
+    user.reset_otp = otp
+    user.reset_otp_expires = datetime.utcnow() + timedelta(minutes=10)
+    
+    db.commit()
+    
+    # Send OTP via email
+    try:
+        await send_password_reset_otp(user.email, otp, user.name)
+        return {"message": "If the email exists, an OTP has been sent"}
+    except Exception as e:
+        # Log the error but don't reveal it to the user
+        print(f"Error sending email: {e}")
+        return {"message": "If the email exists, an OTP has been sent"}
+
+@router.post("/password-reset-verify")
+async def verify_password_reset(
+    request: PasswordResetVerify,
+    db: Session = Depends(get_db)
+):
+    """Verify OTP and reset password"""
+    
+    # Find user
+    user = db.query(User).filter(User.email == request.email).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    # Check if OTP exists and is not expired
+    if not user.reset_otp or not user.reset_otp_expires:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No valid password reset request found"
+        )
+    
+    if datetime.utcnow() > user.reset_otp_expires:
+        # Clear expired OTP
+        user.reset_otp = None
+        user.reset_otp_expires = None
+        db.commit()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="OTP has expired. Please request a new password reset."
+        )
+    
+    # Verify OTP
+    if user.reset_otp != request.otp:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid OTP"
+        )
+    
+    # Reset password
+    user.hashed_password = get_password_hash(request.new_password)
+    user.reset_otp = None
+    user.reset_otp_expires = None
+    
+    db.commit()
+    
+    return {"message": "Password has been reset successfully"}

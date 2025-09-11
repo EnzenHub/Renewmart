@@ -53,6 +53,19 @@ async def create_land_parcel(
     if current_user.user_type.value not in ["landowner", "admin"]:
         raise HTTPException(status_code=403, detail="Not authorized to create land parcels")
     
+    # Ensure landowner_id is provided and valid
+    if not parcel.landowner_id:
+        raise HTTPException(status_code=400, detail="landowner_id is required")
+    
+    # Verify the landowner exists
+    landowner = db.query(User).filter(User.id == parcel.landowner_id).first()
+    if not landowner:
+        raise HTTPException(status_code=400, detail="Invalid landowner_id: user not found")
+    
+    # If current user is a landowner, they can only create parcels for themselves
+    if current_user.user_type.value == "landowner" and parcel.landowner_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Landowners can only create parcels for themselves")
+    
     db_parcel = LandParcel(**parcel.dict())
     db.add(db_parcel)
     db.commit()

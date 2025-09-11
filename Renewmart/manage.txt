@@ -1,0 +1,146 @@
+6.2 Manage Investment Opportunity
+The process for managing Investment Opportunity is outlined below.
+
+User Role
+As an Investor, the user
+should be able to:
+
+As a RE Sales Advisor,
+the user should be able
+to:
+
+As a RE Governance
+lead, the user should be
+able to:
+
+Confidential © Enzen 2022
+
+User Story
+1. Register as an investor
+2. Login to the portal and view investment opportunities,
+investment proposals and projects created for them
+3. Upload any relevant signed documents
+1. Create the investment opportunity with relevant details
+2. Upload relevant documents
+3. Promote the state of the investment opportunity to the next
+states until the framework agreement is in place.
+1. Log in to the portal and view list of milestones pending
+approval
+2. Approve / Reject milestone with comments
+
+RenewMart – Business Requirements
+Page 7 of 17
+
+6.3 Manage Investment Proposal
+The process for managing Investment proposal is outlined below.
+
+User Role
+As an Investor, the user
+should be able to:
+
+As a RE Sales Advisor,
+the user should be able
+to:
+
+As a RE Governance
+lead, the user should be
+able to:
+
+Confidential © Enzen 2022
+
+User Story
+1. Login to the portal and view investment opportunities,
+investment proposals and projects created for them
+2. Upload any relevant signed documents
+3. Approve/reject investment proposals
+1. Create the investment proposal with 1 or more land parcels
+2. Upload relevant documents
+3. Create development service agreement and submit for
+approval
+4. Create development project and assign project manager
+once the proposal is accepted.
+3. Log in to the portal and view list of milestones pending
+approval
+4. Approve / Reject milestone with comments
+
+RenewMart – Business Requirements
+Page 8 of 17
+
+6.4 Manage Development Project
+
+User Role
+As a Project Manager,
+the user should be able
+to:
+
+User Story
+1. View list/details of assigned projects and their tasks
+2. Assign project tasks to RE Analysts
+3. Review status of tasks related to my project and escalate
+overdue/at risk tasks
+4. Upload relevant documents against milestone and submit for
+approval
+5. Progress the project states to completion (with necessary
+governance)
+
+As a RE Analyst, the
+user should be able to:
+
+1. Log in to the portal and view list of tasks (feasibility study
+task in this case) assigned to him/her.
+2. Accept / Reject task with comments
+3. Fill the associated form (if any)
+4. Upload document (if any) to the task
+5. Mark the task as complete
+5. Log in to the portal and view list of milestones pending
+approval
+6. Approve / Reject milestone with comments
+
+As a RE Governance
+lead, the user should be
+able to:
+
+Confidential © Enzen 2022
+
+RenewMart – Business Requirements
+Page 9 of 17
+
+6.5 Manage Configuration
+
+User Role
+As a Admin, the user
+should be able to:
+
+User Story
+1. Define project types and associated tasks/milestones
+(template projects)
+2. Define data forms to be populated by analysts during
+completion of a specific task type
+3. Define approvals required for specific milestones based on
+defined business rules
+4. Create users
+5. Assign user roles, permissions
+
+The configurable elements in the portal should include
+•
+•
+•
+•
+•
+•
+
+Project type (e.g. Solar, Storage, Wind, hydrogen, heat pump…etc)
+Geography (Portugal, Spain, UK, Australia, Rest of Europe, Latin America, North America..)
+Project size (Grid Size, Distribution generation, anything else?)
+Project milestones (configurable depending on project type, geography and project size)
+Land availability type (Sale, Lease?)
+Access permissions, governance level
+
+The specific data items for each can be defined during detailed design/build phase.
+
+Confidential © Enzen 2022
+
+RenewMart – Business Requirements
+Page 10 of 17
+
+
